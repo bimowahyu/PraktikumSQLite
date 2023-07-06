@@ -57,29 +57,36 @@ public class MainActivity extends AppCompatActivity {
                 String isian_noHp = edNoHp.getText().toString();
 
                 if(isian_nama.isEmpty() || isian_nim.isEmpty() || isian_noHp.isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Isian Masih Kosong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"silahkan diisi", Toast.LENGTH_SHORT).show();
                 }else{
                     //mhsList.add(new MhsModel(-1,isian_nama,isian_nim,isian_noHp));
 
                     boolean stts;
-                    if(!isEdit){
-                        mm = new MhsModel(-1,isian_nama, isian_nim, isian_noHp);
-                        stts = dbase.simpan(mm);
-                        edNama.setText("");
-                        edNim.setText("");
-                        edNoHp.setText("");
 
-                    }else {
-                        mm = new MhsModel(mm.getId(),isian_nama, isian_nim, isian_noHp);
-                        stts = dbase.ubah(mm);
-                    }
+                    mhsList = dbase.list();
+                    if (mhsList.size()>=5){
+                        Toast.makeText(getApplicationContext(), "Data maksimal 5!",Toast.LENGTH_SHORT).show();
+                    } else {
 
-                    if(stts){
-                        Toast.makeText(getApplicationContext(),"Data Berhasil Disimpan", Toast.LENGTH_SHORT)
-                                .show();
-                    }else {
-                        Toast.makeText(getApplicationContext(),"Data Gagal Disimpan", Toast.LENGTH_SHORT)
-                                .show();
+                        if (!isEdit) {
+                            mm = new MhsModel(-1, isian_nama, isian_nim, isian_noHp);
+                            stts = dbase.simpan(mm);
+                            edNama.setText("");
+                            edNim.setText("");
+                            edNoHp.setText("");
+
+                        } else {
+                            mm = new MhsModel(mm.getId(), isian_nama, isian_nim, isian_noHp);
+                            stts = dbase.ubah(mm);
+                        }
+
+                        if (stts) {
+                            Toast.makeText(getApplicationContext(), "Data Berhasil Disave", Toast.LENGTH_SHORT)
+                                    .show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Data Gagal Disave", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
                     }
 
                     //intent_list.putParcelableArrayListExtra("mhsList",mhsList);
